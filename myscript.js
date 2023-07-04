@@ -3,98 +3,99 @@ const winsEl = document.getElementById("wins");
 const userPick = document.getElementById("user-pick");
 const housePick = document.getElementById("house-pick");
 const restartBtn = document.getElementById("restart-btn");
-const resultContainer = document.getElementById("result-container");
+const resultContainer = document.querySelector(".result-container");
 const resultEl = document.getElementById("result");
-const scoreContainer = document.getElementById("score-container");
+const scoreContainer = document.querySelector(".score-container");
 const userScore = document.getElementById("user-score");
 const houseScore = document.getElementById("house-score");
-const userEmoji = document.getElementById("user-outcome");
-const houseEmoji = document.getElementById("house-outcome");
+const userEmoji = document.querySelector(".user-outcome");
+const houseEmoji = document.querySelector(".house-outcome");
 const outcomeText = document.getElementById("outcome");
 const choicesEl = document.querySelectorAll(".circle");
 const rulesBtn = document.getElementById("rules");
-const overLay = document.getElementById("overlay");
+const overlay = document.getElementById("overlay");
 const closeIcon = document.getElementById("close-icon");
 
-// Game variables
-const choices = ["paper", "scissors", "rock"];
+// game variables
+const choices = ["rock", "paper", "scissors"];
 let gameover = false;
 let active = false;
 
 // functions
 function chooseRandom() {
-    return choices[Math.floor(Math.random() * 3)];
+   return choices[Math.floor(Math.random() * 3)];
+}
+
+function playRound(user, house) {
+   outcomeText.textContent = "";
+   userEmoji.textContent = "";
+   houseEmoji.textContent = "";
+
+   setTimeout(() => {
+      userPick.classList.add("large-circle", user);
+      userPick.innerHTML = `<img src="./images/icon-${user}.svg">`;
+   }, 300);
+
+   setTimeout(() => {
+      housePick.classList.add("large-circle", house);
+      housePick.innerHTML = `<img src="./images/icon-${house}.svg">`;
+
+      // determine outcome
+      if (user === house) {
+         outcomeText.textContent = "It's a Tie!!";
+      } else if (
+         (user == "rock" && house == "scissors") ||
+         (user == "paper" && house == "rock") ||
+         (user == "scissors" && house == "paper")
+      ) {
+         outcomeText.textContent = `${user} beats ${house}`;
+         userEmoji.textContent = "✅";
+         houseEmoji.textContent = "❌";
+         userScore.textContent = +parseInt(userScore.innerText) + 1;
+      } else {
+         outcomeText.textContent = `${user} loses to ${house}`;
+         houseEmoji.textContent = "✅";
+         userEmoji.textContent = "❌";
+         houseScore.textContent = +parseInt(houseScore.innerText) + 1;
+      }
+      isGameover();
+      active = false;
+   }, 400);
 }
 
 function isGameover() {
-    if (userScore.innerText == "3" || houseScore.innerText == "3") {
-        gameover = true;
-        setTimeout(() => {
-            scoreContainer.classList.add("hide");
-            resultContainer.classList.remove("hide");
-            if (+userScore.innerText > +houseScore.innerText) {
-                resultEl.innerText = "You win!";
-                winsEl.textContent = +winsEl.textContent + 1;
-            } else {
-                resultEl.innerText = "You lose!";
-            }
-        }, 500);
-    }
+   if (userScore.innerText == "3" || houseScore.innerText == "3") {
+      gameover = true;
+      setTimeout(() => {
+         scoreContainer.classList.add("hide");
+         resultContainer.classList.remove("hide");
+         if (+userScore.innerText > +houseScore.innerText) {
+            resultEl.innerText = "You Win!!";
+            winsEl.textContent = +winsEl.innerText + 1;
+         } else {
+            resultEl.innerText = "You Lose 🥺";
+         }
+      }, 1100);
+   }
 }
 
-function playRound() {
-    outcomeText.textContent = "Waiting for your choice...";
-    userEmoji.textContent = "";
-    houseEmoji.textContent = "";
-
-    setTimeout(() => {
-        userPick.classList.add("large-circle", user);
-        userPick.innerHTML = `<img src="images/icon-${user}.svg" >`;
-    }, 300);
-
-    setTimeout(() => {
-        housePick.classList.add("large-circle", house);
-        housePick.innerHTML = `<img src="images/icon-${house}.svg" >`;
-        
-        if (user === house) {
-            outcomeText.textContext = "It's a draw!";
-        } else if (
-            (user === "paper" && house === "rock") ||
-            (user === "scissors" && house === "paper") ||
-            (user === "rock" && house === "scissors")
-        ) {
-            outcomeText.textContent = `${user} beats ${house}. You win!`;
-            userEmoji.textContent = "🎉";
-            houseEmoji.textContent = "😢"
-            userScore.textContent = +parseInt(userScore.textContent) + 1;
-        } else {
-            outcomeText.textContent = `${house} beats ${user}. You lose!`;
-            userEmoji.textContent = "😢";
-            houseEmoji.textContent = "🎉";
-            houseScore.textContent = +parseInt(houseScore.textContent) + 1;
-        }
-        isGameover();
-        active = false;
-    }, 400);
+function resetGame() {
+   userScore.innerText = "0";
+   houseScore.innerText = "0";
+   userEmoji.innerText = "";
+   houseEmoji.innerText = "";
+   resultContainer.classList.add("hide");
+   scoreContainer.classList.remove("hide");
+   outcomeText.innerText = "Make a choice to begin";
+   gameover = false;
 }
 
-function restart() {
-    userScore.textContent = 0;
-    houseScore.textContent = 0;
-    userEmoji.textContent = "";
-    houseEmoji.textContent = "";
-    resultContainer.classList.add("hide");
-    scoreContainer.classList.remove("hide");
-    outcomeText.innerText = "Waiting for your choice...";
-    gameover = false;
+function clearEl(element) {
+   element.innerHTML = "";
+   element.classList = "placeholder";
 }
 
-const clearE1 = (element) => {
-    element.classList= "placeholder";
-    element.innerHTML = "";
-}
-
-// Event listeners
+// event listeners
 choicesEl.forEach((choice) => {
    choice.addEventListener("click", (event) => {
       if (!gameover && !active) {
