@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="stylesheet" href="style.css" />
+      <title>Rock, Paper, Scissors</title>
+      <script src="myscript.js" defer></script>
+   </head>
+   <body>
+      <header>
+         <img src="images/logo.svg" alt="rock, paper, scissors" />
+         <div class="scorecard">
+            <p>Wins</p>
+            <p id="wins">0</p>
+         </div>
+      </header>
+
+      <!-- rules overlay -->
+      <div class="overlay hide" id="overlay">
+         <div class="rules-title">
+            <h1>RULES</h1>
+            <img src="images/icon-close.svg" alt="close icon" id="close-icon" class="close-icon">
+         </div>
+         <img src="images/image-rules.svg" alt="rules">
+         <p>first to 3 wins</p>
+      </div>
+
+      <main>
+         <div class="choices">
+            <img src="images/bg-triangle.svg" alt="triangle" width="200px" />
+            <div class="triangle-top">
+               <div class="circle paper" id="paper" data-choice="paper">
+                  <img class="choice-icon" src="images/icon-paper.svg" alt="paper icon" />
+               </div>
+               <div class="circle scissors" id="scissors" data-choice="scissors">
+                  <img
+                     class="choice-icon"
+                     src="images/icon-scissors.svg"
+                     alt="scissors icon"
+                  />
+               </div>
+            </div>
+            <div class="triangle-bottom">
+               <div class="circle rock" id="rock" data-choice="rock">
+                  <img class="choice-icon" src="images/icon-rock.svg" alt="rock icon" />
+               </div>
+            </div>
+         </div>
+         <div class="picks">
+            <div>
+               <p class="pick-title">You Picked</p>
+               <div id="user-pick" class="placeholder"></div>
+            </div>
+            <div class="middle">
+               <div class="score-container">
+                  <div class="outcome" id="outcome">Make a choice to begin</div>
+                  <div class="scores-container">
+                     <div class="user-outcome"></div>
+                     <div class="scorecard score">
+                        <p>Score</p>
+                        <div class="scores">
+                           <span id="user-score">0</span><span> - </span
+                           ><span id="house-score">0</span>
+                        </div>
+                     </div>
+                     <div class="house-outcome"></div>
+                  </div>
+               </div>
+               <div class="result-container hide">
+                  <p class="result" id="result">You win</p>
+                  <button class="restart" id="restart-btn">Play Again?</button>
+               </div>
+            </div>
+            <div>
+               <p class="pick-title">The House Picked</p>
+               <div id="house-pick" class="placeholder"></div>
+            </div>
+         </div>
+      </main>
+      <button id="rules" class="rules">Rules</button>
+   </body>
+</html>
